@@ -1,7 +1,14 @@
 import streamlit as st
 from utils.data_loader import load_data
 
-# Initialize session state variables to store the model and vectorizer
+# Set page configuration
+st.set_page_config(
+    page_title="🧠 Text Classifier by Kevin Philips Tanamas",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Initialize session state variables
 if 'trained_model' not in st.session_state:
     st.session_state.trained_model = None
 if 'vectorizer' not in st.session_state:
@@ -15,36 +22,44 @@ if 'label_column' not in st.session_state:
 if 'df' not in st.session_state:
     st.session_state.df = load_data()
 
-# Set page configuration
-st.set_page_config(
-    page_title="Single-label Text Classification",
-    layout="wide"
-)
+# ---------- HEADER ----------
+st.markdown("""
+    <h1 style='text-align: center; color: #4A90E2;'>📚 Modul 2 - Single-label Text Classification</h1>
+    <h4 style='text-align: center; color: gray;'>by <i>Kevin Philips Tanamas</i></h4>
+""", unsafe_allow_html=True)
 
-# Add title and description
-st.title("Modul 2 - Single-label Text Classification")
-st.markdown(
-    "Single label klasifikasi teks menggunakan model Random Forest, SVM, dan Multinomial Naive Bayes."
-)
+st.markdown("""---""")
 
-# Main page content
-st.write("""
-## Welcome to the Single-label Text Classification App
-         
-This application demonstrates text classification using various machine learning models.
+# ---------- INTRODUCTION ----------
+with st.container():
+    col1, col2 = st.columns([2, 1])
+    with col1:
+        st.subheader("🚀 Welcome!")
+        st.markdown("""
+        This interactive application demonstrates single-label text classification using popular machine learning models such as:
+        - ✅ Support Vector Machine (SVM)
+        - 🌲 Random Forest
+        - 📈 Multinomial Naive Bayes
 
-### Available Pages:
+        **Explore, Train, and Predict** using the navigation sidebar on the left!
+        """)
+    with col2:
+        st.image("https://cdn-icons-png.flaticon.com/512/3437/3437364.png", width=200)
 
-1. **Dataset Explorer** - Explore and understand the dataset
-2. **Model Training** - Train and evaluate different classification models
-3. **Prediction** - Make predictions on new text inputs
+# ---------- DATASET OVERVIEW ----------
+st.markdown("""---""")
+st.subheader("🔍 Dataset Overview")
 
-Use the sidebar to navigate between pages.
-""")
-
-# Show dataset overview
-st.subheader("Dataset Overview")
 df = st.session_state.df
-st.write(f"Number of samples: {df.shape[0]}")
-st.write(f"Number of features: {df.shape[1]}")
-st.dataframe(df.head(5))
+col1, col2 = st.columns(2)
+col1.metric("Total Samples", df.shape[0])
+col2.metric("Total Features", df.shape[1])
+
+st.dataframe(df.head(5), use_container_width=True)
+
+# ---------- FOOTER ----------
+st.markdown("""---""")
+st.markdown(
+    "<p style='text-align: center; color: gray;'>© 2025 Kevin Philips Tanamas | All Rights Reserved</p>",
+    unsafe_allow_html=True
+)
